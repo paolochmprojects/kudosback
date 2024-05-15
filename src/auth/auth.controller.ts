@@ -8,7 +8,6 @@ export class AuthController {
 
   @Post('login')
   login(@Body() loginDto: LoginDto) {
-    loginDto.email = loginDto.email.toLowerCase().trim();
     return this.authService.login(loginDto);
   }
 

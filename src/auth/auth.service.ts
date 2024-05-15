@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginDto } from './dto/user-login.dto';
-import { genSalt, hash } from 'bcrypt';
+import { compare, genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -10,10 +10,21 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
-  login(loginDto: LoginDto): string {
-    console.log(loginDto);
-    const testToken = this.jwtService.sign({ name: 'test' });
-    return testToken;
+  async login(loginDto: LoginDto): Promise<{ token: string }> {
+    const userExist = await this.findUserByEmail(loginDto.email);
+
+    if (!userExist) throw new BadRequestException('Invalid credentials');
+
+    const isPasswordValid = await compare(
+      loginDto.password,
+      userExist.password,
+    );
+
+    if (!isPasswordValid) throw new BadRequestException('Invalid credentials');
+
+    const token = this.jwtService.sign({ id: userExist.id });
+
+    return { token };
   }
 
   async register(registerDto: LoginDto) {
