@@ -19,10 +19,10 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('Kudos API')
     .setDescription('API for Kudos')
     .setVersion('0.0.1')
-    .addTag('auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
