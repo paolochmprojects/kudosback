@@ -60,7 +60,7 @@ $ npm run test:cov
 
 ## Documentation
 
-Implement with swagger in /api route to view all of routes for this application.
+Implement with swagger in [/api](https://kudosback.onrender.com/api) route to view all of routes for this application.
 
 ## Environment variables
 
