@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNumber,
   IsOptional,
@@ -8,7 +9,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { LoginDto } from './user-login.dto';
-import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterDto extends LoginDto {
   @ApiProperty({ example: 'SuperScret@123', description: 'User password' })

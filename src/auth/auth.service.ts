@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginDto } from './dto/user-login.dto';
 import { compare, genSalt, hash } from 'bcrypt';
+import { RegisterDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -27,12 +28,12 @@ export class AuthService {
     return { token };
   }
 
-  async register(registerDto: LoginDto) {
+  async register(registerDto: RegisterDto, throwError = true) {
     const salt = await genSalt(10);
     registerDto.password = await hash(registerDto.password, salt);
     const userExist = await this.findUserByEmail(registerDto.email);
 
-    if (userExist) {
+    if (userExist && throwError) {
       throw new BadRequestException('User already exist');
     }
 
@@ -48,6 +49,13 @@ export class AuthService {
   async findUserByEmail(email: string) {
     const userExist = await this.prisma.user.findUnique({
       where: { email },
+    });
+    return userExist;
+  }
+
+  async findUserById(id: string) {
+    const userExist = await this.prisma.user.findUnique({
+      where: { id },
     });
     return userExist;
   }

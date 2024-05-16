@@ -7,14 +7,17 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { UploadService } from './upload.service';
 
 @ApiTags('Files')
-@ApiSecurity('bearer')
+@ApiBearerAuth()
 @Controller('upload')
 @UseGuards(AuthGuard)
 export class UploadController {
+  constructor(private uploadService: UploadService) {}
+
   @Post()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -30,12 +33,12 @@ export class UploadController {
       },
     },
   })
-  uploadUsersCSV(@UploadedFile() file: Express.Multer.File) {
+  async uploadUsers(@UploadedFile() file: Express.Multer.File) {
     if (!file) throw new BadRequestException('File not found');
 
     if (file.mimetype !== 'text/csv')
       throw new BadRequestException('Invalid file type');
 
-    return {};
+    return await this.uploadService.saveDataFromFile(file);
   }
 }
