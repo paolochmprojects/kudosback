@@ -10,8 +10,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { UploadService } from './upload.service';
-import { Roles } from 'src/auth/decorators/role.decorator';
-import { RolesGuard } from 'src/auth/guard/role.guard';
+import { Roles } from '../auth/decorators/role.decorator';
+import { RolesGuard } from '../auth/guard/role.guard';
 
 @ApiTags('Files')
 @ApiBearerAuth()
