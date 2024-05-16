@@ -21,7 +21,7 @@ export class UploadService {
 
     const result = await this.processData(data.data);
 
-    return { result, total: result.length };
+    return { result, total: result.length - data.data.length }; // return result with deleted rows
   }
 
   async parseCsv(csvData: string) {
