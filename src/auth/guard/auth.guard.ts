@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import config from 'src/config';
+import config from '../../config';
 import { Request } from 'express';
 
 const { jwt } = config();

@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { validate, ValidationError } from 'class-validator';
 import { parse } from 'papaparse';
-import { AuthService } from 'src/auth/auth.service';
-import { RegisterDto } from 'src/auth/dto';
+import { AuthService } from '../auth/auth.service';
+import { RegisterDto } from '../auth/dto';
 
 export interface ValidationErrorField {
   field: string;
