@@ -4,11 +4,15 @@ import config from './config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const { port } = config();
+const { port, cors } = config();
 const logger = new Logger('main');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: cors.origin.split(','),
+  });
 
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
